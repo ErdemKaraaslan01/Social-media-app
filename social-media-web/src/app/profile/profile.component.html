@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Profile</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+        crossorigin="anonymous">
+</head>
+
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/profile">{{loggedInUser?.firstName}} {{loggedInUser?.lastName}}</a>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" (click)="logout()">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+<body>
+<div class="container">
+  <div class="main-body">
+
+    <div class="row gutters-sm">
+      <div class="col-md-4 mb-3">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex flex-column align-items-center text-center">
+              <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle"
+                   width="150">
+              <div class="mt-3">
+                <h4>{{temp?.firstName}}
+                  {{temp?.lastName}}</h4>
+                <p class="text-secondary mb-1">{{temp?.about}}</p>
+
+                <div *ngIf="visitedUser" class="mb-2">
+                  <div>
+                    <button (click)="cancelFollow(loggedInUser?.id!, visitedUser.id!)"
+                            *ngIf="followStatus?.requestStatus == 'ACCEPTED'"
+                            class="btn btn-primary me-2 mb-2">
+                      Unfollow
+                    </button>
+                  </div>
+                  <div>
+                    <button (click)="cancelFollowRequest(loggedInUser?.id!, visitedUser.id!)"
+                            *ngIf="followStatus?.requestStatus == 'PENDING'"
+                            class="btn btn-primary me-2 mb-2">
+                      Request sended
+                    </button>
+                  </div>
+                  <div>
+                    <button (click)="sendFollowRequest(loggedInUser?.id!,visitedUser.id!)"
+                            *ngIf="followStatus?.requestStatus == null"
+                            class="btn btn-primary me-2 mb-2">
+                      Follow
+                    </button>
+                  </div>
+                  <button (click)="goToMessagePage(visitedUser)" class="btn btn-primary">Message</button>
+                </div>
+
+                <button (click)="goToUserlistPage(this.loggedInUser!)" class="btn btn-outline-primary">Search user</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card mt-3">
+
+          <div *ngIf="currentUser !== null && temp?.id == currentUser?.id">
+          <h6 class="mb-0">Notifications</h6><br>
+            <div *ngFor="let item of userNotifications">
+              <a class="pointer">{{item.content}}</a>
+              <div *ngIf="item.notificationType === 'FOLLOW_REQUEST'">
+                <button (click)="acceptFollowRequest(loggedInUser?.id!, item.causingUser.id!)" type="button" class="btn btn-primary">Accept</button>
+                <button (click)="rejectFollowRequest(loggedInUser?.id!, item.causingUser.id!)" type="button" class="btn btn-danger">Reject</button>
+              </div>
+              <br><br>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+      <div class="col-md-8">
+        <div class="card mb-3">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-3">
+                <h6 class="mb-0">Username</h6>
+              </div>
+              <div class="col-sm-9 text-secondary">
+                {{temp?.username}}
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <h6 class="mb-0">Full Name</h6>
+              </div>
+              <div class="col-sm-9 text-secondary">
+                {{temp?.firstName}}
+                {{temp?.lastName}}
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <h6 class="mb-0">Email</h6>
+              </div>
+              <div class="col-sm-9 text-secondary">
+                {{temp?.email}}
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <h6 class="mb-0">Phone</h6>
+              </div>
+              <div class="col-sm-9 text-secondary">
+                {{temp?.phone}}
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <h6 class="mb-0">Gender</h6>
+              </div>
+              <div class="col-sm-9 text-secondary">
+                {{temp?.gender}}
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <h6 class="mb-0">About</h6>
+              </div>
+              <div class="col-sm-9 text-secondary">
+                {{temp?.about}}
+              </div>
+            </div>
+            <hr>
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div *ngIf="currentUser">
+                  <button (click)="goToEditPage(currentUser!)" class="btn btn-primary" type="submit">Edit</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row gutters-sm">
+          <div class="col-sm-6 mb-3">
+            <div class="card h-100">
+              <div class="card-body">
+
+                <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">Followers</i></h6>
+                <div *ngFor="let item of userFollowers">
+                  <a (click)="goToMessagePage(item!)" class="pointer">{{item.firstName}} {{item.lastName}}</a>
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 mb-3">
+            <div class="card h-100">
+              <div class="card-body">
+
+                <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">Followings</i></h6>
+                <div *ngFor="let item of userFollowings">
+                  <a (click)="goToMessagePage(item!)" class="pointer">{{item.firstName}} {{item.lastName}}</a>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+</body>
+</html>

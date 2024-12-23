@@ -1,0 +1,16 @@
+/* You can add global styles to this file, and also import other style files */
+table {
+  color: #369;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size:large;
+  border-collapse: collapse;
+}
+
+td {
+  border: 1px solid black;
+}
+
+.pointer {
+  cursor: pointer;
+  text-decoration: none;
+}

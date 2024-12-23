@@ -1,0 +1,39 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/profile">{{loggedInUser.firstName}} {{loggedInUser.lastName}}</a>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" (click)="logout()">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="container">
+  <div class="row">
+    <div class="col-md-8">
+      <div class="people-nearby">
+
+        <div class="nearby-user">
+          <div class="row" *ngFor="let item of allUsers">
+            <div class="col-md-2 col-sm-2">
+              <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="user" class="profile-photo-lg">
+            </div>
+            <div class="col-md-7 col-sm-7">
+              <h5><a class="profile-link">{{item.firstName}} {{item.lastName}}</a></h5>
+              <p>{{item.about}}</p>
+              <p class="text-muted">{{item.username}}</p>
+            </div>
+            <div class="col-md-3 col-sm-3">
+              <button (click)="visitProfile(item)" class="btn btn-primary pull-right">Visit Profile</button>
+            </div>
+            <hr>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

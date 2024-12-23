@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en"
+>
+<head>
+  <meta charset="UTF-8">
+  <title>Registration and Login System</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+        crossorigin="anonymous">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand">Social Media App</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a href="/login" class="nav-link active" aria-current="page">Login</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<br /><br /><br />
+<div class="container">
+  <div class="row col-md-8 offset-md-2">
+    <div class="card">
+      <div class="card-header">
+        <h2 class="text-center">Registration</h2>
+      </div>
+
+      <div *ngIf="isRegistered">
+        <div class="alert alert-info">
+          You have successfully registered our app!
+          <a href="/login">back to login page</a>
+        </div>
+      </div>
+
+      <div *ngIf="isFieldsFull">
+        <div class="alert alert-info">
+          Fields marked with an asterisk must be filled
+        </div>
+      </div>
+
+      <div class="card-body">
+        <form [formGroup]="registerForm!" (ngSubmit)="register()">
+
+          <div class="form-group mb-3">
+            <label class="form-label">* Username</label>
+            <input class="form-control" placeholder="Enter Username" type="text" formControlName="username" required="true"/>
+          </div>
+
+          <div class="form-group mb-3">
+            <label class="form-label">* First Name</label>
+            <input class="form-control" placeholder="Enter first name" type="text" formControlName="firstName" required="true"/>
+          </div>
+
+          <div class="form-group mb-3">
+            <label class="form-label">* Last Name</label>
+            <input class="form-control" placeholder="Enter last name" type="text" formControlName="lastName" required="true"/>
+          </div>
+
+          <div class="form-group mb-3">
+            <label class="form-label">Phone</label>
+            <input class="form-control" placeholder="Enter phone number" type="text" formControlName="phone"/>
+          </div>
+
+          <div class="form-group mb-3">
+            <label class="form-label">About</label>
+            <input class="form-control" placeholder="About" type="text" formControlName="about"/>
+          </div>
+
+          <label class="form-label">* Gender</label>
+
+          <div *ngFor="let item of genderMenu">
+            <div class="form-check">
+              <input formControlName="gender" class="form-check-input" type="radio" [value]="item.value" required="true">
+              <label class="form-check-label">{{item.text}}</label>
+            </div>
+
+          </div>
+
+          <div class="form-group mb-3">
+            <label class="form-label">* Email</label>
+            <input class="form-control" placeholder="Enter email address" type="email" formControlName="email" required="true"/>
+          </div>
+
+          <div class="form-group mb-3">
+            <label class="form-label">* Password</label>
+            <input class="form-control" placeholder="Enter password" type="password" formControlName="password" required="true"/>
+          </div>
+
+          <div class="form-group">
+            <button class="btn btn-primary" type="submit">Register</button>
+            <span>Already registered? <a href="/login">Login here</a></span>
+          </div>
+
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
